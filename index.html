@@ -4,134 +4,68 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Movie Search</title>
+    <title>CineScope</title>
     <link rel="stylesheet" href="index.css">
 </head>
 
 <body>
 
-    <header class="navbar">
-        <div class="logo">
-            CineScope
-        </div>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="logo"> CineScope</div>
 
-        <nav>
+        <div class="nav-links">
             <a href="#">Home</a>
             <a href="#">Movies</a>
             <a href="#">Genres</a>
             <a href="#">Watchlist</a>
-        </nav>
-    </header>
+        </div>
+    </nav>
 
-    <main class="hero">
+    <!-- Discover Section -->
+    <section class="discover">
 
-        <section class="hero-content">
+        <div class="explore">EXPLORE</div>
 
-            <div class="badge">
-                MOVIE DISCOVERY
-            </div>
+        <h1>Discover Movies</h1>
 
-            <h1>
-                Discover Your<br>
-                Next <span>Favorite</span><br>
-                <span>Movie</span>
-            </h1>
+        <div class="search-container">
+            <input type="text" placeholder="Search for a movie...">
 
-            <p>
-                Search thousands of movies, explore popular titles, discover
-                new releases and create your own watchlist.
-            </p>
-
-            <button class="explore-btn">
-                Explore Movies
+            <button>
+                Search
             </button>
+        </div>
 
-        </section>
+        <div class="categories">
+            <button class="active">Popular</button>
+            <button>Now Playing</button>
+            <button>Top Rated</button>
+            <button>Upcoming</button>
+        </div>
 
-        <section class="hero-image" style="height: 600px;width: 750px;">
-            <img src="
-            data:image/jpeg;base64,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
-            94Dy/X6zXKphOf1+vSlSQQw8//9k=" alt=" Spider-Man">
-        </section>
+    </section>
 
-    </main>
+    <!-- Genres -->
+    <section class="genres">
+        <h2>Genres</h2>
+
+        <div class="genre-list">
+            <!-- Genres can be added here -->
+        </div>
+    </section>
+
+    <!-- Watchlist -->
+    <section class="watchlist">
+
+        <h2>My Watchlist</h2>
+
+        <p>
+            Your watchlist is empty.
+        </p>
+
+    </section>
 
 </body>
-<script src="index.js"></script>
 
 </html>
