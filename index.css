@@ -1,265 +1,289 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+       * {
+           margin: 0;
+           padding: 0;
+           box-sizing: border-box;
+       }
 
-body {
-    background: #000;
-    color: #fff;
-    font-family: Arial, Helvetica, sans-serif;
-}
+       body {
+           font-family: Arial, Helvetica, sans-serif;
+           background: #000;
+           color: white;
+       }
 
-.navbar {
-    height: 70px;
-    width: 100%;
-    padding: 0 7%;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: 10;
-}
+       /* Navbar */
+       nav {
+           height: 60px;
+           width: 100%;
+           background: #050505;
 
-.logo {
-    color: #e50914;
-    font-size: 25px;
-    font-weight: 900;
-    letter-spacing: -1px;
-}
+           display: flex;
+           align-items: center;
+           justify-content: space-between;
 
-.nav-right {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-}
+           padding: 0 7.5%;
+       }
 
-.nav-right select {
-    background: #111;
-    color: white;
-    border: 1px solid #777;
-    border-radius: 4px;
-    padding: 7px 12px;
-    font-size: 12px;
-}
+       .logo {
+           color: #e9364f;
+           font-size: 22px;
+           font-weight: bold;
+       }
 
-.sign-in {
-    background: #e50914;
-    color: white;
-    border: none;
-    padding: 8px 15px;
-    border-radius: 4px;
-    font-weight: bold;
-    cursor: pointer;
-}
+       .logo span {
+           margin-right: 8px;
+           font-size: 16px;
+       }
 
-.sign-in:hover {
-    background: #b20710;
-}
+       .nav-links {
+           display: flex;
+           gap: 22px;
+           list-style: none;
+       }
 
-.hero {
-    min-height: 430px;
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    background-image:
-        linear-gradient(to bottom,
-            rgba(0, 0, 0, .65),
-            rgba(0, 0, 0, .78)),
-        url("https://media.themoviedb.org/t/p/w440_and_h660_face/bjiS5ipwxb9JFy3XRRN4OAilSeX.jpg");
-    background-size: cover;
-    background-position: center;
-    border-bottom: 2px solid #e50914;
-}
+       .nav-links a {
+           color: #999;
+           text-decoration: none;
+           font-size: 14px;
+       }
 
-.hero::after {
-    content: "";
-    position: absolute;
-    bottom: -12px;
-    left: 0;
-    width: 100%;
-    height: 20px;
-    background: radial-gradient(ellipse at center,
-            #222 0%,
-            #000 65%);
-    border-radius: 50%;
-}
+       .nav-links a:hover {
+           color: #fff;
+       }
 
-.hero-content {
-    max-width: 650px;
-    margin-top: 50px;
-    position: relative;
-    z-index: 2;
-}
+       /* Hero Section */
+       .hero {
+           min-height: calc(100vh - 60px);
 
-.hero h1 {
-    font-size: 43px;
-    line-height: 1.15;
-    font-weight: 800;
-    margin-bottom: 15px;
-}
+           display: flex;
+           align-items: center;
 
-.hero h3 {
-    font-size: 15px;
-    margin-bottom: 18px;
-}
+           padding-left: 7.5%;
 
-.hero p {
-    font-size: 12px;
-    margin-bottom: 10px;
-}
+           background:
+               linear-gradient(to right,
+                   rgba(0, 0, 0, 0.75),
+                   rgba(0, 0, 0, 0.55),
+                   rgba(0, 0, 0, 0.75)),
+               url("https://media.themoviedb.org/t/p/w440_and_h660_face/bjiS5ipwxb9JFy3XRRN4OAilSeX.jpg");
 
-.email-box {
-    display: flex;
-    justify-content: center;
-    gap: 5px;
-}
+           background-size: cover;
+           background-position: center;
+       }
 
-.email-box input {
-    width: 310px;
-    height: 42px;
-    background: rgba(20, 20, 20, .85);
-    border: 1px solid #777;
-    border-radius: 3px;
-    padding: 0 12px;
-    color: white;
-    outline: none;
-}
+       .hero-content {
+           max-width: 620px;
+       }
 
-.email-box input::placeholder {
-    color: #aaa;
-}
+       .tag {
+           display: inline-block;
 
-.email-box button {
-    height: 42px;
-    background: #e50914;
-    border: none;
-    color: white;
-    padding: 0 20px;
-    border-radius: 3px;
-    font-weight: bold;
-    cursor: pointer;
-}
+           background: #e9364f;
+           color: white;
 
-.email-box button:hover {
-    background: #b20710;
-}
+           padding: 4px 10px;
+           border-radius: 5px;
 
-.email-box button span {
-    font-size: 22px;
-    vertical-align: middle;
-}
+           font-size: 11px;
+           font-weight: bold;
 
-#message {
-    margin-top: 10px;
-    color: #46d369;
-    font-size: 12px;
-}
+           margin-bottom: 25px;
+       }
 
-main {
-    max-width: 1200px;
-    margin: auto;
-}
+       .hero h1 {
+           font-size: 62px;
+           line-height: 1.25;
+           margin-bottom: 20px;
+           color: #aaa;
+       }
 
-.trending {
-    position: relative;
-    padding: 45px 0;
-}
+       .hero h1 .highlight {
+           color: #f23850;
+       }
 
-.trending h2,
-.reasons h2 {
-    font-size: 22px;
-    margin-bottom: 18px;
-}
+       .description {
+           color: #999;
+           font-size: 16px;
+           line-height: 1.5;
 
-.movie-slider {
-    display: flex;
-    gap: 25px;
-    overflow: hidden;
-    padding: 0 15px 15px 15px;
-}
+           max-width: 570px;
+           margin-bottom: 28px;
+       }
 
-.movie {
-    position: relative;
-    min-width: 160px;
-    height: 230px;
-    border-radius: 7px;
-}
+       .explore-btn {
+           display: inline-block;
 
-.movie img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    border-radius: 7px;
-}
+           background: #ed3b52;
+           color: white;
 
-.number {
-    position: absolute;
-    z-index: 2;
-    bottom: -15px;
-    left: -15px;
-    font-size: 75px;
-    font-weight: 900;
-    color: #000;
-    -webkit-text-stroke: 3px white;
-    text-shadow: 3px 3px 5px #000;
-}
+           padding: 12px 18px;
 
-.slider-btn {
-    position: absolute;
-    right: -10px;
-    top: 135px;
-    width: 40px;
-    height: 80px;
-    border: none;
-    background: rgba(50, 50, 50, .9);
-    color: white;
-    font-size: 45px;
-    cursor: pointer;
-    border-radius: 5px;
-}
+           border-radius: 6px;
+           text-decoration: none;
 
-.reasons {
-    padding: 25px 0 60px;
-}
+           font-size: 16px;
+       }
 
-.reason-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 15px;
-}
+       .explore-btn:hover {
+           background: #c92d43;
+       }
 
-.reason-card {
-    min-height: 180px;
-    padding: 22px 18px;
-    border-radius: 8px;
-    background: linear-gradient(135deg,
-            #171633,
-            #261522);
-    position: relative;
-    overflow: hidden;
-}
+       * {
+           margin: 0;
+           padding: 0;
+           box-sizing: border-box;
+       }
 
-.reason-card h3 {
-    font-size: 15px;
-    line-height: 1.4;
-    margin-bottom: 15px;
-}
+       body {
+           font-family: Arial, Helvetica, sans-serif;
+           background: #202224;
+           color: white;
+       }
 
-.reason-card p {
-    color: #bbb;
-    font-size: 11px;
-    line-height: 1.6;
-    max-width: 220px;
-}
+       /* Top navigation */
+       .navbar {
+           height: 72px;
+           background: #050505;
+           display: flex;
+           align-items: center;
+           justify-content: space-between;
+           padding: 0 8%;
+           border-bottom: 1px solid #161616;
+       }
 
-.icon {
-    position: absolute;
-    right: 15px;
-    bottom: 12px;
-    font-size: 35px;
-}
+       .logo {
+           color: #ef304d;
+           font-size: 21px;
+           font-weight: bold;
+           letter-spacing: -0.5px;
+       }
+
+       .logo::before {
+           content: "▣";
+           font-size: 12px;
+           margin-right: 8px;
+       }
+
+       .nav-links {
+           display: flex;
+           gap: 22px;
+       }
+
+       .nav-links a {
+           color: #858585;
+           text-decoration: none;
+           font-size: 14px;
+           transition: color 0.2s;
+       }
+
+       .nav-links a:hover {
+           color: #fff;
+       }
+
+       /* Main discover area */
+       .discover {
+           min-height: 320px;
+           padding: 44px 8% 60px;
+           text-align: center;
+           background:
+               linear-gradient(rgba(32, 35, 37, .96), rgba(32, 35, 37, .98)),
+               radial-gradient(circle at 50% 0%, #34383b, #1e2022);
+       }
+
+       .small-title {
+           color: #ed2f4c;
+           font-size: 13px;
+           font-weight: bold;
+           margin-bottom: 8px;
+           text-transform: uppercase;
+       }
+
+       .discover h1 {
+           font-size: 29px;
+           margin-bottom: 42px;
+           text-shadow: 0 2px 5px #000;
+       }
+
+       .search-area {
+           display: flex;
+           width: 100%;
+           max-width: 1155px;
+           margin: 0 auto 20px;
+           height: 34px;
+       }
+
+       .search-area input {
+           flex: 1;
+           border: 1px solid #3c3c3c;
+           outline: none;
+           background: #030303;
+           color: white;
+           padding: 0 12px;
+           font-size: 14px;
+       }
+
+       .search-area button {
+           width: 80px;
+           border: none;
+           background: #ef304d;
+           color: white;
+           cursor: pointer;
+           font-size: 13px;
+           box-shadow: 0 0 8px rgba(239, 48, 77, .35);
+       }
+
+       .search-area button:hover {
+           background: #d92542;
+       }
+
+       /* Filter buttons */
+       .filters {
+           max-width: 1155px;
+           margin: 0 auto;
+           display: flex;
+           gap: 5px;
+           justify-content: flex-start;
+       }
+
+       .filter {
+           padding: 8px 12px;
+           background: #202020;
+           border: 1px solid #777;
+           border-radius: 4px;
+           color: #cfcfcf;
+           font-size: 13px;
+           cursor: pointer;
+       }
+
+       .filter.active {
+           background: #ef304d;
+           border-color: #ef304d;
+           color: white;
+       }
+
+       /* Section headings */
+       .section {
+           min-height: 125px;
+           padding: 43px 8%;
+       }
+
+       .genres {
+           background: #000;
+           border-top: 4px solid #080808;
+           border-bottom: 4px solid #080808;
+       }
+
+       .watchlist {
+           background: #252525;
+           min-height: 150px;
+       }
+
+       .section h2 {
+           font-size: 27px;
+           margin-bottom: 7px;
+       }
+
+       .empty-message {
+           color: #777;
+           font-size: 12px;
+       }
+

@@ -1,223 +1,95 @@
 <!DOCTYPE html>
+
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Netflix</title>
-
+    <title>CineScope - Movie Discovery</title>
     <link rel="stylesheet" href="index.css">
 </head>
 
 <body>
 
-    <header class="navbar">
-        <div class="logo">NETFLIX</div>
+    <nav>
 
-        <div class="nav-right">
-            <button class="sign-in">Sign In</button>
+        <div class="logo">
+            CineScope
         </div>
-    </header>
 
-    <section class="hero" style="height: 100vh; ">
+        <ul class="nav-links">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#movies">Movies</a></li>
+            <li><a href="#genres">Genres</a></li>
+            <li><a href="#watchlist">Watchlist</a></li>
+        </ul>
+
+    </nav>
+
+    <section class="hero" id="home">
 
         <div class="hero-content">
 
-            <h1>Unlimited movies, TV<br>shows, and more</h1>
-            <p>
-                Ready to watch? Enter your email to create or restart your membership.
+            <span class="tag">MOVIE DISCOVERY</span>
+
+            <h1>
+                Discover Your<br>
+                Next<br>
+                <span class="highlight">Favorite Movie</span>
+            </h1>
+
+            <p class="description">
+                Search thousands of movies, explore popular titles,
+                discover new releases and create your own watchlist.
             </p>
 
-            <div class="email-box">
-                <input type="email" id="email" placeholder="Email address">
-                <button onclick="getStarted()">
-                    Get Started
-                </button>
-            </div>
-
-            <p id="message"></p>
+            <a href="#movies" class="explore-btn">
+                Explore Movies
+            </a>
 
         </div>
 
     </section>
 
-    <main>
+    <section class="discover" id="movies">
 
-        <section class="trending" style="height: 50vh; ">
+        <h1>Discover Movies</h1>
 
-            <h2>Trending Now</h2>
+        <div class="search-area">
+            <input type="text" aria-label="Search movies" placeholder="Search movies...">
+            <button>Search</button>
+        </div>
 
-            <div class="movie-slider" id="movieSlider">
+        <div class="filters">
+            <button class="filter active">Popular</button>
+            <button class="filter">Now Playing</button>
+            <button class="filter">Top Rated</button>
+            <button class="filter">Upcoming</button>
+        </div>
 
-                <div class="movie">
-                    <span class="number">1</span>
-                    <img src="https://media.themoviedb.org/t/p/w440_and_h660_face/bjiS5ipwxb9JFy3XRRN4OAilSeX.jpg">
-                </div>
+    </section>
 
-                <div class="movie">
-                    <span class="number">2</span>
-                    <img src="https://media.themoviedb.org/t/p/w440_and_h660_face/5rhTDKUhPYvpdQIijFIs5VoWsON.jpg">
-                </div>
+    <section class="section genres" id="genres">
 
-                <div class="movie">
-                    <span class="number">3</span>
-                    <img src="https://media.themoviedb.org/t/p/w440_and_h660_face/aAnTt6KpmbbHbd6xH3FQFlppZjc.jpg">
-                </div>
+        <h2>Genres</h2>
 
-                <div class="movie">
-                    <span class="number">4</span>
-                    <img src="https://media.themoviedb.org/t/p/w440_and_h660_face/alpf5v4UqSFawPmG9RX03Or4BDk.jpg">
-                </div>
+        <div id="genreGrid"></div>
 
-                <div class="movie">
-                    <span class="number">5</span>
-                    <img src="https://media.themoviedb.org/t/p/w440_and_h660_face/3PWJqDfygN0YNNjWsDUOXclCp3h.jpg">
-                </div>
+    </section>
 
-                <div class="movie">
-                    <span class="number">6</span>
-                    <img src="https://media.themoviedb.org/t/p/w440_and_h660_face/oiIPU4lvnI0Ag2K9cyAi44eCaoE.jpg">
-                </div>
-                <div class="movie">
-                    <span class="number">7</span>
-                    <img src="https://media.themoviedb.org/t/p/w440_and_h660_face/1g0dhYtq4irTY1GPXvft6k4YLjm.jpg">
-                </div>
+    <section class="section watchlist" id="watchlist">
 
-            </div>
-        </section>
+        <h2>My Watchlist</h2>
 
-        <section class="reasons" style="height: 50vh; ">
+        <p class="empty-message">
+            Your watchlist is empty
+        </p>
 
-            <h2>More Reasons to Join</h2>
+        <div id="watchlistGrid"></div>
 
-            <div class="reason-grid">
+    </section>
 
-                <div class="reason-card">
-                    <h3>Enjoy on your TV</h3>
-                    <p>
-                        Watch on Smart TVs, PlayStation, Xbox, Chromecast,
-                        Apple TV, Blu-ray players, and more.
-                    </p>
-                </div>
-
-                <div class="reason-card">
-                    <h3>Download your shows to watch offline</h3>
-                    <p>
-                        Save your favorites easily and always have something
-                        to watch.
-                    </p>
-                </div>
-
-                <div class="reason-card">
-                    <h3>Watch everywhere</h3>
-                    <p>
-                        Stream unlimited movies and TV shows on your phone,
-                        tablet, laptop, and TV.
-                    </p>
-                </div>
-
-                <div class="reason-card">
-                    <h3>Create profiles for kids</h3>
-                    <p>
-                        Send kids on adventures with their favorite characters
-                        in a space made just for them.
-                    </p>
-                </div>
-
-            </div>
-
-        </section>
-
-    </main>
-
-    <script>
-        const API_URL = "https://api.themoviedb.org/3";
-        const API_KEY = "8b673d766321b78f39ca2f6a51b3c305";
-        const IMAGE_URL = "https://image.tmdb.org/t/p/w500";
-
-        const movieGrid = document.getElementById("movieGrid");
-        const searchInput = document.getElementById("searchInput");
-        const searchBtn = document.getElementById("searchBtn");
-
-        async function fetchMovies(endpoint) {
-            movieGrid.innerHTML = `
-        <p>Loading movies...</p>
-    `;
-
-            try {
-                const response = await fetch(
-                    `${API_URL}${endpoint}&api_key=${API_KEY}&language=en-US`,
-                );
-
-                if (!response.ok) {
-                    throw new Error("Failed to fetch movies");
-                }
-
-                const data = await response.json();
-
-                movieGrid.innerHTML = "";
-
-                data.results.forEach((movie) => {
-                    if (!movie.poster_path) {
-                        return;
-                    }
-
-                    movieGrid.innerHTML += `
-                <div class="movie-card">
-
-                    <img 
-                        src="${IMAGE_URL}${movie.poster_path}"
-                        alt="${movie.title}"
-                    >
-
-                    <div class="movie-info">
-
-                        <h3>${movie.title}</h3>
-
-                        <p>
-                            ⭐ ${movie.vote_average.toFixed(1)}
-                        </p>
-
-                        <p>
-                            ${movie.release_date || "N/A"}
-                        </p>
-
-                    </div>
-
-                </div>
-            `;
-                });
-            } catch (error) {
-                console.log(error);
-
-                movieGrid.innerHTML = `
-            <p style="color: #e52f45;">
-                Failed to load movies.
-            </p>
-        `;
-            }
-        }
-
-        searchBtn.addEventListener("click", () => {
-            const query = searchInput.value.trim();
-
-            if (query === "") {
-                fetchMovies("/movie/popular?");
-            } else {
-                fetchMovies(`/search/movie?query=${encodeURIComponent(query)}`);
-            }
-        });
-
-        searchInput.addEventListener("keydown", (event) => {
-            if (event.key === "Enter") {
-                searchBtn.click();
-            }
-        });
-
-        fetchMovies("/movie/popular?");
-
-    </script>
+    <script src="index.js"></script>
 
 </body>
 
