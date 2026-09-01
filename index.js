@@ -45,22 +45,21 @@ async function fetchMovies(endpoint) {
 
     movieGrid.innerHTML = `
             <div class="col-12 text-center py-5">
-                <p class="mt-3 text-secondary">Unable to load movies.</p>
+                <p class="mt-3 text-secondary">
+                    Unable to load movies.
+                </p>
             </div>
         `;
   }
 }
+
 fetchMovies("/movie/popular");
 
 function displayMovies(movies) {
   if (!movies.length) {
     movieGrid.innerHTML = `
-            <div class="col-12 text-center py-5">
-                <i class="bi bi-film fs-1 text-secondary"></i>
-                <h4 class="mt-3">No movies found</h4>
-                <p class="text-secondary">
-                    Try searching for another movie.
-                </p>
+            <div class="col-12 text-center">
+                <p class="text-secondary">No movies found.</p>
             </div>
         `;
     return;
@@ -70,7 +69,7 @@ function displayMovies(movies) {
     .map((movie) => {
       const poster = movie.poster_path
         ? `${IMAGE_URL}${movie.poster_path}`
-        : "https://placehold.co/600x900?text=No+Image";
+        : "https://placehold.co/600x900/png";
 
       const rating = movie.vote_average ? movie.vote_average.toFixed(1) : "N/A";
 
@@ -79,37 +78,68 @@ function displayMovies(movies) {
         : "Unknown";
 
       return `
-            <div class="col-md-3 col-sm-6 mb-4">
-                <div class="card h-100 shadow-sm">
+                <div class="col-6 col-md-4 col-lg-3">
+                    <div class="card movie-card h-100 bg-black text-white border-secondary">
 
-                    <img 
-                        src="${poster}" 
-                        class="card-img-top"
-                        alt="${movie.title}"
-                    >
+                        <img
+                            src="${poster}"
+                            class="card-img-top"
+                            alt="${movie.title}"
+                            style="height: 380px; object-fit: cover;"
+                        >
 
-                    <div class="card-body">
-                        <h5 class="card-title">${movie.title}</h5>
+                        <div class="card-body d-flex flex-column">
 
-                        <p class="card-text text-secondary">
-                            ${movie.overview || "No description available."}
-                        </p>
+                            <h5 class="card-title">
+                                ${movie.title}
+                            </h5>
 
-                        <div class="d-flex justify-content-between">
-                            <span>
-                                <i class="bi bi-star-fill text-warning"></i>
-                                ${rating}
-                            </span>
+                            <div class="d-flex justify-content-between align-items-center mb-3">
 
-                            <span class="text-secondary">
-                                ${year}
-                            </span>
+                                <span class="text-secondary">
+                                    ${year}
+                                </span>
+
+                                <span class="text-warning">
+                                    <i class="bi bi-star-fill"></i>
+                                    ${rating}
+                                </span>
+
+                            </div>
+
+                            <button
+                                class="btn btn-danger mt-auto"
+                                onclick='openMovieModal(${JSON.stringify(movie).replace(/'/g, "&apos;")})'
+                            >
+                                View Details
+                            </button>
+
                         </div>
-                    </div>
 
+                    </div>
                 </div>
-            </div>
-        `;
+            `;
     })
     .join("");
 }
+
+function searchMovies() {
+  const query = searchInput.value.trim();
+
+  if (!query) {
+    fetchMovies("/movie/popular");
+    return;
+  }
+
+  fetchMovies(`/search/movie?query=${encodeURIComponent(query)}`);
+}
+
+searchBtn.addEventListener("click", searchMovies);
+
+searchInput.addEventListener("keydown", (event) => {
+  if (event.key === "Enter") {
+    searchMovies();
+  }
+});
+
+fetchMovies("/movie/popular");
