@@ -142,4 +142,28 @@ searchInput.addEventListener("keydown", (event) => {
   }
 });
 
+categoryBtns.forEach((button) => {
+  button.addEventListener("click", () => {
+    const type = button.dataset.type;
+
+    searchInput.value = "";
+
+    fetchMovies(`/movie/${type}`);
+
+    setActiveCategory(type);
+  });
+});
+
+function setActiveCategory(type) {
+  categoryBtns.forEach((button) => {
+    if (button.dataset.type === type) {
+      button.classList.remove("btn-outline-light");
+      button.classList.add("btn-danger");
+    } else {
+      button.classList.remove("btn-danger");
+      button.classList.add("btn-outline-light");
+    }
+  });
+}
+
 fetchMovies("/movie/popular");
