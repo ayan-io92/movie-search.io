@@ -5,8 +5,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CineScope - Movie Discovery</title>
+
+    <title>CineScope - Movie Search</title>
+
     <link rel="stylesheet" href="index.css">
+
+
 </head>
 
 <body>
@@ -25,6 +29,7 @@
         </ul>
 
     </nav>
+
 
     <section class="hero" id="home">
 
@@ -51,23 +56,47 @@
 
     </section>
 
+
     <section class="discover" id="movies">
 
         <h1>Discover Movies</h1>
 
         <div class="search-area">
-            <input type="text" aria-label="Search movies" placeholder="Search movies...">
-            <button>Search</button>
+
+            <input type="text" id="search" aria-label="Search movies" placeholder="Search movies...">
+
+            <button onclick="searchMovie()">
+                Search
+            </button>
+
         </div>
+
+        <p id="message"></p>
 
         <div class="filters">
-            <button class="filter active">Popular</button>
-            <button class="filter">Now Playing</button>
-            <button class="filter">Top Rated</button>
-            <button class="filter">Upcoming</button>
+
+            <button class="filter active">
+                Popular
+            </button>
+
+            <button class="filter">
+                Now Playing
+            </button>
+
+            <button class="filter">
+                Top Rated
+            </button>
+
+            <button class="filter">
+                Upcoming
+            </button>
+
         </div>
 
+        <div id="movieContainer" class="movies"></div>
+
     </section>
+
 
     <section class="section genres" id="genres">
 
@@ -76,6 +105,7 @@
         <div id="genreGrid"></div>
 
     </section>
+
 
     <section class="section watchlist" id="watchlist">
 
@@ -89,7 +119,9 @@
 
     </section>
 
+
     <script src="index.js"></script>
+
 
 </body>
 

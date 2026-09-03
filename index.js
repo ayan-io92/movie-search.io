@@ -2,74 +2,64 @@ const API_KEY = "8b673d766321b78f39ca2f6a51b3c305";
 const API_URL = "https://api.themoviedb.org/3";
 const IMAGE_URL = "https://image.tmdb.org/t/p/w500";
 
-const movieGrid = document.getElementById("movieGrid");
+const movieContainer = document.getElementById("movieContainer");
+const searchInput = document.getElementById("search");
+const message = document.getElementById("message");
+
 const genreGrid = document.getElementById("genreGrid");
 const watchlistGrid = document.getElementById("watchlistGrid");
-const emptyWatchlist = document.getElementById("emptyWatchlist");
 
-const searchInput = document.getElementById("searchInput");
-const searchBtn = document.getElementById("searchBtn");
+let watchlist = [];
 
-const modalPoster = document.getElementById("modalPoster");
-const modalTitle = document.getElementById("modalTitle");
-const modalRating = document.getElementById("modalRating");
-const modalOverview = document.getElementById("modalOverview");
-const watchlistBtn = document.getElementById("watchlistBtn");
-
-let selectedMovie = null;
+/* Get Movies */
 
 async function fetchMovies(endpoint) {
   try {
-    movieGrid.innerHTML = `
-            <div class="col-12 text-center py-5">
-                <div class="spinner-border text-danger"></div>
-                <p class="mt-3 text-secondary">Loading movies...</p>
-            </div>
-        `;
+    message.textContent = "Loading movies...";
+    movieContainer.innerHTML = "";
 
-    const response = await fetch(
-      `${API_URL}${endpoint}?api_key=${API_KEY}&language=en-US`,
-    );
+    const separator = endpoint.includes("?") ? "&" : "?";
+
+    const url = `${API_URL}${endpoint}${separator}api_key=${API_KEY}&language=en-US`;
+
+    const response = await fetch(url);
 
     if (!response.ok) {
-      throw new Error("Failed to fetch movies");
+      throw new Error("Unable to fetch movies");
     }
 
     const data = await response.json();
 
-    console.log("result", data.results);
+    displayMovies(data.results || []);
 
-    displayMovies(data.results);
+    message.textContent = "";
   } catch (error) {
-    console.log(error);
+    console.error(error);
 
-    movieGrid.innerHTML = `
-            <div class="col-12 text-center py-5">
-                <p class="mt-3 text-secondary">
-                    Unable to load movies.
-                </p>
-            </div>
-        `;
+    message.textContent = "Unable to load movies. Please try again.";
+
+    movieContainer.innerHTML = "";
   }
 }
 
-fetchMovies("/movie/popular");
+/* Display Movies */
 
 function displayMovies(movies) {
-  if (!movies.length) {
-    movieGrid.innerHTML = `
-            <div class="col-12 text-center">
-                <p class="text-secondary">No movies found.</p>
-            </div>
-        `;
+  if (movies.length === 0) {
+    movieContainer.innerHTML = "<p>No movies found.</p>";
+
     return;
   }
 
-  movieGrid.innerHTML = movies
-    .map((movie) => {
-      const poster = movie.poster_path
-        ? `${IMAGE_URL}${movie.poster_path}`
-        : "https://placehold.co/600x900/png";
+  movieContainer.innerHTML = movies
+    .map(function (movie) {
+      let poster = "https://placehold.co/500x750/png?text=No+Poster";
+
+      if (movie.poster_path) {
+        poster = IMAGE_URL + movie.poster_path;
+      }
+
+      const title = movie.title || "Unknown Movie";
 
       const rating = movie.vote_average ? movie.vote_average.toFixed(1) : "N/A";
 
@@ -78,92 +68,257 @@ function displayMovies(movies) {
         : "Unknown";
 
       return `
-                <div class="col-6 col-md-4 col-lg-3">
-                    <div class="card movie-card h-100 bg-black text-white border-secondary">
+            <div class="movie">
 
-                        <img
-                            src="${poster}"
-                            class="card-img-top"
-                            alt="${movie.title}"
-                            style="height: 380px; object-fit: cover;"
-                        >
+                <img
+                    src="${poster}"
+                    alt="${title}"
+                    onerror="this.src='https://placehold.co/500x750/png?text=No+Poster'"
+                >
 
-                        <div class="card-body d-flex flex-column">
+                <div class="movie-info">
 
-                            <h5 class="card-title">
-                                ${movie.title}
-                            </h5>
+                    <h2>${title}</h2>
 
-                            <div class="d-flex justify-content-between align-items-center mb-3">
+                    <p class="rating">
+                        ⭐ ${rating}
+                    </p>
 
-                                <span class="text-secondary">
-                                    ${year}
-                                </span>
+                    <p>
+                        Release: ${year}
+                    </p>
 
-                                <span class="text-warning">
-                                    <i class="bi bi-star-fill"></i>
-                                    ${rating}
-                                </span>
+                    <button
+                        onclick='addToWatchlist(${JSON.stringify(movie)})'
+                        style="
+                            margin-top: 10px;
+                            padding: 8px 12px;
+                            border: none;
+                            border-radius: 5px;
+                            background: #ef304d;
+                            color: white;
+                            cursor: pointer;
+                        "
+                    >
+                        Add to Watchlist
+                    </button>
 
-                            </div>
-
-                            <button
-                                class="btn btn-danger mt-auto"
-                                onclick='openMovieModal(${JSON.stringify(movie).replace(/'/g, "&apos;")})'
-                            >
-                                View Details
-                            </button>
-
-                        </div>
-
-                    </div>
                 </div>
-            `;
+
+            </div>
+        `;
     })
     .join("");
 }
 
-function searchMovies() {
-  const query = searchInput.value.trim();
+/* Search Movies */
 
-  if (!query) {
-    fetchMovies("/movie/popular");
+function searchMovie() {
+  const movieName = searchInput.value.trim();
+
+  if (movieName === "") {
+    message.textContent = "Please enter a movie name.";
+
+    movieContainer.innerHTML = "";
+
     return;
   }
 
-  fetchMovies(`/search/movie?query=${encodeURIComponent(query)}`);
+  const query = encodeURIComponent(movieName);
+
+  fetchMovies(`/search/movie?query=${query}`);
 }
 
-searchBtn.addEventListener("click", searchMovies);
+/* Search Button */
 
-searchInput.addEventListener("keydown", (event) => {
+const searchButton = document.querySelector(".search-area button");
+
+if (searchButton) {
+  searchButton.addEventListener("click", function () {
+    searchMovie();
+  });
+}
+
+/* Search With Enter */
+
+searchInput.addEventListener("keydown", function (event) {
   if (event.key === "Enter") {
-    searchMovies();
+    searchMovie();
   }
 });
 
-categoryBtns.forEach((button) => {
-  button.addEventListener("click", () => {
-    const type = button.dataset.type;
+/* Filter Buttons */
+
+const filterButtons = document.querySelectorAll(".filter");
+
+filterButtons.forEach(function (button) {
+  button.addEventListener("click", function () {
+    filterButtons.forEach(function (btn) {
+      btn.classList.remove("active");
+    });
+
+    button.classList.add("active");
 
     searchInput.value = "";
 
-    fetchMovies(`/movie/${type}`);
+    const text = button.textContent.trim();
 
-    setActiveCategory(type);
+    if (text === "Popular") {
+      fetchMovies("/movie/popular");
+    } else if (text === "Now Playing") {
+      fetchMovies("/movie/now_playing");
+    } else if (text === "Top Rated") {
+      fetchMovies("/movie/top_rated");
+    } else if (text === "Upcoming") {
+      fetchMovies("/movie/upcoming");
+    }
   });
 });
 
-function setActiveCategory(type) {
-  categoryBtns.forEach((button) => {
-    if (button.dataset.type === type) {
-      button.classList.remove("btn-outline-light");
-      button.classList.add("btn-danger");
-    } else {
-      button.classList.remove("btn-danger");
-      button.classList.add("btn-outline-light");
-    }
-  });
-}
+// /* Genres */
 
-fetchMovies("/movie/popular");
+// async function fetchGenres() {
+//   try {
+//     const response = await fetch(
+//       `${API_URL}/genre/movie/list?api_key=${API_KEY}&language=en-US`,
+//     );
+
+//     const data = await response.json();
+
+//     displayGenres(data.genres || []);
+//   } catch (error) {
+//     console.error("Genre error:", error);
+//   }
+// }
+
+// function displayGenres(genres) {
+//   if (!genreGrid) {
+//     return;
+//   }
+
+//   genreGrid.innerHTML = genres
+//     .map(function (genre) {
+//       return `
+//             <button
+//                 class="filter"
+//                 onclick="searchGenre(${genre.id})"
+//             >
+//                 ${genre.name}
+//             </button>
+//         `;
+//     })
+//     .join("");
+// }
+
+// /* Search By Genre */
+
+// function searchGenre(genreId) {
+//   searchInput.value = "";
+
+//   fetchMovies(`/discover/movie?with_genres=${genreId}`);
+
+//   document.getElementById("movies").scrollIntoView({
+//     behavior: "smooth",
+//   });
+// }
+
+// /* Watchlist */
+
+// function addToWatchlist(movie) {
+//   const alreadyAdded = watchlist.some(function (item) {
+//     return item.id === movie.id;
+//   });
+
+//   if (alreadyAdded) {
+//     message.textContent = "Movie is already in your watchlist.";
+
+//     return;
+//   }
+
+//   watchlist.push(movie);
+
+//   message.textContent = `${movie.title} added to watchlist.`;
+
+//   displayWatchlist();
+// }
+
+// function displayWatchlist() {
+//   if (!watchlistGrid) {
+//     return;
+//   }
+
+//   if (watchlist.length === 0) {
+//     watchlistGrid.innerHTML =
+//       "<p class='empty-message'>Your watchlist is empty</p>";
+
+//     return;
+//   }
+
+//   watchlistGrid.innerHTML = watchlist
+//     .map(function (movie) {
+//       let poster = "https://placehold.co/500x750/png?text=No+Poster";
+
+//       if (movie.poster_path) {
+//         poster = IMAGE_URL + movie.poster_path;
+//       }
+
+//       return `
+//                 <div class="movie">
+
+//                     <img
+//                         src="${poster}"
+//                         alt="${movie.title}"
+//                     >
+
+//                     <div class="movie-info">
+
+//                         <h2>${movie.title}</h2>
+
+//                         <p class="rating">
+//                             ⭐ ${
+//                               movie.vote_average
+//                                 ? movie.vote_average.toFixed(1)
+//                                 : "N/A"
+//                             }
+//                         </p>
+
+//                         <button
+//                             onclick="removeFromWatchlist(${movie.id})"
+//                             style="
+//                                 margin-top: 10px;
+//                                 padding: 8px 12px;
+//                                 border: none;
+//                                 border-radius: 5px;
+//                                 background: #555;
+//                                 color: white;
+//                                 cursor: pointer;
+//                             "
+//                         >
+//                             Remove
+//                         </button>
+
+//                     </div>
+
+//                 </div>
+//             `;
+//     })
+//     .join("");
+// }
+
+// /* Remove From Watchlist */
+
+// function removeFromWatchlist(movieId) {
+//   watchlist = watchlist.filter(function (movie) {
+//     return movie.id !== movieId;
+//   });
+
+//   displayWatchlist();
+// }
+
+// /* Load Movies When Page Opens */
+
+// fetchMovies("/movie/popular");
+
+// fetchGenres();
+
+// displayWatchlist();
