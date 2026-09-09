@@ -53,7 +53,7 @@ nav {
 }
 
 
-/* Hero Section */
+/* Hero */
 
 .hero {
     min-height: calc(100vh - 60px);
@@ -121,7 +121,7 @@ nav {
 }
 
 
-/* Discover Section */
+/* Discover */
 
 .discover {
     min-height: 320px;
@@ -129,8 +129,8 @@ nav {
     text-align: center;
 
     background:
-        linear-gradient(rgba(32, 35, 37, .96),
-            rgba(32, 35, 37, .98)),
+        linear-gradient(rgba(32, 35, 37, 0.96),
+            rgba(32, 35, 37, 0.98)),
         radial-gradient(circle at 50% 0%,
             #34383b,
             #1e2022);
@@ -182,7 +182,7 @@ nav {
     color: white;
     cursor: pointer;
     font-size: 13px;
-    box-shadow: 0 0 8px rgba(239, 48, 77, .35);
+    box-shadow: 0 0 8px rgba(239, 48, 77, 0.35);
 }
 
 .search-area button:hover {
@@ -196,7 +196,7 @@ nav {
 }
 
 
-/* Filter Buttons */
+/* Filters */
 
 .filters {
     max-width: 1155px;
@@ -231,7 +231,8 @@ nav {
 
 .movies {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    grid-template-columns: repeat(auto-fill,
+            minmax(180px, 1fr));
     gap: 25px;
     padding: 30px 0;
     max-width: 1155px;
@@ -273,6 +274,22 @@ nav {
     color: #ffd700 !important;
 }
 
+.details-btn {
+    width: 100%;
+    margin-top: 12px;
+    padding: 9px;
+    border: none;
+    border-radius: 5px;
+    background: #ef304d;
+    color: white;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.details-btn:hover {
+    background: #d92542;
+}
+
 
 /* Common Sections */
 
@@ -297,7 +314,8 @@ nav {
 
 #genreGrid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    grid-template-columns: repeat(auto-fill,
+            minmax(150px, 1fr));
     gap: 15px;
     margin-top: 20px;
 }
@@ -317,13 +335,138 @@ nav {
 
 #watchlistGrid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    grid-template-columns: repeat(auto-fill,
+            minmax(180px, 1fr));
     gap: 25px;
     margin-top: 20px;
 }
 
+/* Movie Modal */
 
-/* Responsive */
+#movieModal {
+    background: rgba(0, 0, 0, 0.65);
+}
+
+#movieModal .modal-dialog {
+    max-width: 720px;
+    width: 90%;
+    margin: 1.75rem auto;
+}
+
+#movieModal .movie-modal {
+    width: 100%;
+    background: #202428;
+    color: white;
+    border: none;
+    border-radius: 7px;
+    overflow: hidden;
+}
+
+#movieModal .modal-body {
+    padding: 14px;
+}
+
+.movie-modal-content {
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+}
+
+.modal-poster {
+    width: 215px;
+    min-width: 215px;
+}
+
+.modal-poster img {
+    width: 215px;
+    height: 320px;
+    object-fit: cover;
+    border-radius: 5px;
+    display: block;
+}
+
+.modal-info {
+    flex: 1;
+    padding-top: 2px;
+}
+
+.modal-info h2 {
+    margin: 0 0 8px;
+    font-size: 28px;
+    line-height: 1.2;
+    font-weight: 700;
+    color: white;
+}
+
+.modal-rating {
+    color: #ffd21c;
+    font-size: 15px;
+    margin: 0 0 14px;
+}
+
+.modal-overview {
+    background: #303438;
+    color: #a9a9a9;
+    font-size: 15px;
+    line-height: 1.45;
+    padding: 10px;
+    margin: 0 0 14px;
+    border-radius: 4px;
+}
+
+.watchlist-btn {
+    background: #ef3347;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 9px 13px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.watchlist-btn:hover {
+    background: #d9283b;
+}
+
+.watchlist-btn:disabled {
+    background: #777;
+    cursor: not-allowed;
+}
+
+
+/* Mobile */
+
+@media (max-width: 600px) {
+
+    #movieModal .modal-dialog {
+        width: 95%;
+        max-width: 95%;
+        margin: 1rem auto;
+    }
+
+    .movie-modal-content {
+        flex-direction: column;
+    }
+
+    .modal-poster {
+        width: 180px;
+        min-width: 180px;
+        margin: 0 auto;
+    }
+
+    .modal-poster img {
+        width: 180px;
+        height: 270px;
+    }
+
+    .modal-info h2 {
+        font-size: 23px;
+    }
+
+    .modal-overview {
+        font-size: 14px;
+    }
+}
 
 @media (max-width: 700px) {
 
