@@ -5,6 +5,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+
 
     <title>CineScope - Movie Search</title>
 
@@ -15,21 +19,52 @@
 
 <body>
 
-    <nav>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-black">
+        <div class="container">
 
-        <div class="logo">
-            CineScope
+            <a class="navbar-brand fw-bold text-danger" href="#">
+                CineScope
+            </a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarNav">
+
+                <ul class="navbar-nav ms-auto">
+
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#home">
+                            Home
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="#movies">
+                            Movies
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="#genres">
+                            Genres
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="#watchlist">
+                            Watchlist
+                        </a>
+                    </li>
+
+                </ul>
+
+            </div>
+
         </div>
-
-        <ul class="nav-links">
-            <li><a href="#home">Home</a></li>
-            <li><a href="#movies">Movies</a></li>
-            <li><a href="#genres">Genres</a></li>
-            <li><a href="#watchlist">Watchlist</a></li>
-        </ul>
-
     </nav>
-
 
     <section class="hero" id="home">
 
@@ -110,44 +145,45 @@
     <section class="section watchlist" id="watchlist">
 
         <h2>My Watchlist</h2>
-
-        <p class="empty-message">
-            Your watchlist is empty
-        </p>
-
         <div id="watchlistGrid"></div>
 
     </section>
     <div class="modal fade" id="movieModal" tabindex="-1">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content movie-modal">
+        <div class="modal-dialog modal-dialog-centered" style="max-width: 720px;">
+            <div class="modal-content bg-dark text-white">
 
-                <div class="modal-body">
+                <div class="modal-body p-3">
+                    <div class="row g-3">
 
-                    <div class="movie-modal-content">
-
-                        <div class="modal-poster">
-                            <img id="modalPoster" src="" alt="Movie Poster">
+                        <div class="col-4">
+                            <img src="" alt="Movie Poster" id="moviePoster" class="img-fluid rounded">
                         </div>
 
-                        <div class="modal-info">
-                            <h2 id="modalTitle"></h2>
+                        <div class="col-8">
+                            <h2 class="fs-3 mb-2" id="movieTitle"></h2>
 
-                            <p id="modalRating" class="modal-rating"></p>
+                            <p class="text-warning mb-3" id="movieRating"></p>
 
-                            <p id="modalOverview" class="modal-overview"></p>
+                            <p class="mb-2">
+                                <span class="text-secondary">Release Date:</span>
+                                <span id="movieReleaseDate"></span>
+                            </p>
 
-                            <p id="modalReleaseDate"></p>
-                            <p id="modalGenre"></p>
-                            <p id="modalRuntime"></p>
+                            <p class="mb-2">
+                                <span class="text-secondary">Language:</span>
+                                <span id="movieLanguage"></span>
+                            </p>
 
-                            <button id="watchlistBtn" class="watchlist-btn">
+                            <div class="bg-secondary bg-opacity-25 rounded p-2 mt-3">
+                                <p class="text-secondary mb-0" id="movieOverview"></p>
+                            </div>
+
+                            <button class="btn btn-danger btn-sm mt-3" onclick="addToWatchlist(selectedMovie)" id="addToWatchlist">
                                 Add to Watchlist
                             </button>
                         </div>
 
                     </div>
-
                 </div>
 
             </div>
@@ -156,6 +192,7 @@
 
     <script src="https://kit.fontawesome.com/379f6932b1.js" crossorigin="anonymous"></script>
     <script src="index.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
 
 
 </body>
