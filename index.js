@@ -1,307 +1,222 @@
-const NO_POSTER = "https://placehold.co/500x750/png?text=No+Poster";
-const API_KEY = "8b673d766321b78f39ca2f6a51b3c305";
-const API_URL = "https://api.themoviedb.org/3";
-const IMAGE_URL = "https://image.tmdb.org/t/p/w500";
+let users = JSON.parse(localStorage.getItem("users")) || [];
 
-const movieContainer = document.getElementById("movieContainer");
-const searchInput = document.getElementById("search");
-const message = document.getElementById("message");
-const genreGrid = document.getElementById("genreGrid");
-const watchlistGrid = document.getElementById("watchlistGrid");
-const watchlistBtn = document.getElementById("addToWatchlist");
+const loginForm = document.getElementById("loginForm");
+const signupForm = document.getElementById("signupForm");
+const forgotPasswordForm = document.getElementById("forgotPassword");
 
-let watchlist = [];
-let selectedMovie = null;
+const showSignup = document.getElementById("showSignup");
+const showLogin = document.getElementById("showLogin");
+const showForgot = document.getElementById("showForgot");
+const backToLogin = document.getElementById("backToLogin");
 
-async function fetchMovies(endpoint) {
-  try {
-    message.textContent = "Loading movies...";
-    movieContainer.innerHTML = "";
+showSignup.addEventListener("click", (e) => {
+  e.preventDefault();
 
-    const separator = endpoint.includes("?") ? "&" : "?";
-    const url = `${API_URL}${endpoint}${separator}api_key=${API_KEY}&language=en-US`;
+  loginForm.style.display = "none";
+  signupForm.style.display = "block";
+  forgotPasswordForm.style.display = "none";
+});
 
-    const response = await fetch(url);
+showLogin.addEventListener("click", (e) => {
+  e.preventDefault();
 
-    if (!response.ok) {
-      throw new Error("Unable to fetch movies");
-    }
+  loginForm.style.display = "block";
+  signupForm.style.display = "none";
+  forgotPasswordForm.style.display = "none";
+});
 
-    const data = await response.json();
+showForgot.addEventListener("click", (e) => {
+  e.preventDefault();
 
-    displayMovies(data.results || []);
+  loginForm.style.display = "none";
+  signupForm.style.display = "none";
+  forgotPasswordForm.style.display = "block";
+});
+
+backToLogin.addEventListener("click", (e) => {
+  e.preventDefault();
+
+  loginForm.style.display = "block";
+  signupForm.style.display = "none";
+  forgotPasswordForm.style.display = "none";
+});
+
+document.getElementById("login").addEventListener("submit", (e) => {
+  e.preventDefault();
+
+  const email = document.getElementById("loginEmail").value.trim();
+  const password = document.getElementById("loginPassword").value;
+  const message = document.getElementById("loginMessage");
+
+  const user = users.find((u) => {
+    return u.email === email && u.password === password;
+  });
+
+  if (!user) {
+    message.textContent = "Invalid email or password.";
+    message.style.color = "red";
+    return;
+  }
+
+  localStorage.setItem("loggedInUser", JSON.stringify(user));
+
+  message.textContent = `Welcome, ${user.username}!`;
+  message.style.color = "green";
+
+  setTimeout(() => {
+    window.location.href = "home.html";
+  }, 3000);
+});
+
+document.getElementById("signup").addEventListener("submit", (e) => {
+  e.preventDefault();
+
+  const username = document.getElementById("signupUsername").value.trim();
+  const email = document.getElementById("signupEmail").value.trim();
+  const password = document.getElementById("signupPassword").value.trim();
+  const confirmPassword = document
+    .getElementById("confirmPassword")
+    .value.trim();
+
+  const message = document.getElementById("signupMessage");
+
+  const existingUser = users.find((u) => {
+    return u.email === email;
+  });
+
+  if (existingUser) {
+    message.textContent = "An account with this email already exists.";
+    message.style.color = "red";
+    return;
+  }
+
+  if (password.length < 6) {
+    message.textContent = "Password must be at least 6 characters.";
+    message.style.color = "red";
+    return;
+  }
+
+  if (password !== confirmPassword) {
+    message.textContent = "Passwords do not match.";
+    message.style.color = "red";
+    return;
+  }
+
+  const newUser = {
+    username: username,
+    email: email,
+    password: password,
+  };
+
+  users.push(newUser);
+
+  localStorage.setItem("users", JSON.stringify(users));
+
+  message.textContent = "Account created successfully!";
+  message.style.color = "green";
+  loginForm.style.display = "block";
+  signupForm.style.display = "none";
+
+  document.getElementById("signup").reset();
+});
+
+document.getElementById("resetPassword").addEventListener("submit", (e) => {
+  e.preventDefault();
+
+  forgotPassword();
+});
+
+function forgotPassword() {
+  const email = document.getElementById("forgotEmail").value.trim();
+
+  const newPassword = document.getElementById("newPassword").value.trim();
+
+  const confirmPassword = document
+    .getElementById("confirmNewPassword")
+    .value.trim();
+
+  const message = document.getElementById("forgotMessage");
+
+  const user = users.find((u) => {
+    return u.email === email;
+  });
+
+  if (!user) {
+    message.textContent = "Email address not found.";
+    message.style.color = "red";
+    return;
+  }
+
+  if (newPassword.length < 6) {
+    message.textContent = "Password must be at least 6 characters.";
+    message.style.color = "red";
+    return;
+  }
+
+  if (newPassword !== confirmPassword) {
+    message.textContent = "Passwords do not match.";
+    message.style.color = "red";
+    return;
+  }
+
+  user.password = newPassword;
+
+  localStorage.setItem("users", JSON.stringify(users));
+
+  message.textContent = "Password reset successfully!";
+  message.style.color = "green";
+
+  document.getElementById("resetPassword").reset();
+
+  setTimeout(() => {
+    forgotPasswordForm.style.display = "none";
+    loginForm.style.display = "block";
+
     message.textContent = "";
-  } catch (error) {
-    console.error(error);
-    message.textContent = "Unable to load movies. Please try again.";
-    movieContainer.innerHTML = "";
-  }
+  }, 2000);
 }
 
-function displayMovies(movies) {
-  if (movies.length === 0) {
-    movieContainer.innerHTML = "<p>No movies found.</p>";
-    return;
-  }
+function togglePassword(inputId, iconId) {
+  const input = document.getElementById(inputId);
+  const icon = document.getElementById(iconId);
 
-  movieContainer.innerHTML = movies
-    .map(function (movie) {
-      const poster = movie.poster_path
-        ? IMAGE_URL + movie.poster_path
-        : NO_POSTER;
+  icon.addEventListener("click", () => {
+    if (input.type === "password") {
+      input.type = "text";
 
-      const title = movie.title || "Unknown Movie";
+      icon.classList.remove("fa-eye");
+      icon.classList.add("fa-eye-slash");
+    } else {
+      input.type = "password";
 
-      const rating = movie.vote_average ? movie.vote_average.toFixed(1) : "N/A";
-
-      const year = movie.release_date
-        ? movie.release_date.substring(0, 4)
-        : "Unknown";
-
-      return `
-            <div class="movie">
-                <img
-                    src="${poster}"
-                    alt="${title}"
-                    onerror="this.src='${NO_POSTER}'"
-                >
-
-                <div class="movie-info">
-                    <h2>${title}</h2>
-
-                    <p class="rating">
-                        ⭐ ${rating}
-                    </p>
-
-                    <p>
-                        Release: ${year}
-                    </p>
-
-                    <button
-                        class="details-btn"
-                        onclick="openMovieModal(${movie.id})"
-                    >
-                        View Details
-                    </button>
-                </div>
-            </div>
-        `;
-    })
-    .join("");
-}
-
-function searchMovie() {
-  const movieName = searchInput.value.trim();
-
-  if (movieName === "") {
-    fetchMovies("/movie/popular");
-    return;
-  }
-
-  const query = encodeURIComponent(movieName);
-
-  fetchMovies(`/search/movie?query=${query}`);
-}
-
-const searchButton = document.querySelector(".search-area button");
-
-if (searchButton) {
-  searchButton.addEventListener("click", function () {
-    searchMovie();
+      icon.classList.remove("fa-eye-slash");
+      icon.classList.add("fa-eye");
+    }
   });
 }
+login.addEventListener("submit", function (e) {
+  e.preventDefault();
 
-if (searchInput) {
-  searchInput.addEventListener("input", function () {
-    searchMovie();
-  });
-}
+  const email = document.getElementById("loginEmail").value;
+  const password = document.getElementById("loginPassword").value;
 
-async function fetchGenres() {
-  try {
-    const url = `${API_URL}/genre/movie/list?api_key=${API_KEY}&language=en-US`;
+  if (email && password) {
+    document.getElementById("loginMessage").textContent = "Login successful!";
 
-    const response = await fetch(url);
-
-    if (!response.ok) {
-      throw new Error("Unable to fetch genres");
-    }
-
-    const data = await response.json();
-
-    displayGenres(data.genres || []);
-  } catch (error) {
-    console.error(error);
-
-    if (genreGrid) {
-      genreGrid.innerHTML = "<p>Unable to load genres.</p>";
-    }
+    login.reset();
   }
-}
+});
+login.addEventListener("submit", function (e) {
+  e.preventDefault();
 
-function displayGenres(genres) {
-  if (!genreGrid) {
-    return;
-  }
+  const spinner = document.getElementById("loginSpinner");
+  const loginText = document.getElementById("loginText");
 
-  genreGrid.innerHTML = genres
-    .map(function (genre) {
-      return `
-            <button
-                class="filter"
-                onclick="searchGenre(${genre.id})"
-            >
-                ${genre.name}
-            </button>
-        `;
-    })
-    .join("");
-}
+  spinner.classList.remove("d-none");
+  loginText.textContent = "Loading...";
 
-function searchGenre(genreId) {
-  fetchMovies(`/discover/movie?with_genres=${genreId}`);
-}
-
-function addToWatchlist() {
-  if (!selectedMovie) {
-    return;
-  }
-
-  const alreadyAdded = watchlist.some(function (movie) {
-    return movie.id === selectedMovie.id;
-  });
-
-  if (alreadyAdded) {
-    message.textContent = "Movie is already in your watchlist.";
-    return;
-  }
-
-  watchlist.push(selectedMovie);
-  message.textContent = `${selectedMovie.title} added to watchlist.`;
-
-  displayWatchlist();
-}
-
-function displayWatchlist() {
-  if (!watchlistGrid) {
-    return;
-  }
-
-  if (watchlist.length === 0) {
-    watchlistGrid.innerHTML =
-      "<p class='empty-message'>Your watchlist is empty</p>";
-    return;
-  }
-
-  watchlistGrid.innerHTML = watchlist
-    .map(function (movie) {
-      const poster = movie.poster_path
-        ? IMAGE_URL + movie.poster_path
-        : NO_POSTER;
-
-      const rating = movie.vote_average ? movie.vote_average.toFixed(1) : "N/A";
-
-      return `
-            <div class="movie">
-                <img
-                    src="${poster}"
-                    alt="${movie.title}"
-                    onerror="this.src='${NO_POSTER}'"
-                >
-
-                <div class="movie-info">
-                    <h2>${movie.title}</h2>
-
-                    <p class="rating">
-                        ⭐ ${rating}
-                    </p>
-
-                    <button
-                        class="details-btn"
-                        onclick="removeFromWatchlist(${movie.id})"
-                    >
-                        Remove
-                    </button>
-                </div>
-            </div>
-        `;
-    })
-    .join("");
-}
-
-function removeFromWatchlist(movieId) {
-  watchlist = watchlist.filter(function (movie) {
-    return movie.id !== movieId;
-  });
-
-  displayWatchlist();
-}
-
-async function openMovieModal(movieId) {
-  try {
-    const url = `${API_URL}/movie/${movieId}?api_key=${API_KEY}&language=en-US`;
-
-    const response = await fetch(url);
-
-    if (!response.ok) {
-      throw new Error("Unable to fetch movie details");
-    }
-
-    const movie = await response.json();
-
-    selectedMovie = movie;
-
-    const moviePoster = document.getElementById("moviePoster");
-    const movieTitle = document.getElementById("movieTitle");
-    const movieRating = document.getElementById("movieRating");
-    const movieReleaseDate = document.getElementById("movieReleaseDate");
-    const movieLanguage = document.getElementById("movieLanguage");
-    const movieOverview = document.getElementById("movieOverview");
-    const modalElement = document.getElementById("movieModal");
-
-    if (moviePoster) {
-      moviePoster.src = movie.poster_path
-        ? IMAGE_URL + movie.poster_path
-        : NO_POSTER;
-    }
-
-    if (movieTitle) {
-      movieTitle.textContent = movie.title || "Unknown Movie";
-    }
-
-    if (movieRating) {
-      movieRating.textContent = movie.vote_average
-        ? `⭐ ${movie.vote_average.toFixed(1)}`
-        : "⭐ N/A";
-    }
-
-    if (movieReleaseDate) {
-      movieReleaseDate.textContent = movie.release_date || "Not Available";
-    }
-
-    if (movieLanguage) {
-      movieLanguage.textContent = movie.original_language
-        ? movie.original_language.toUpperCase()
-        : "Not Available";
-    }
-
-    if (movieOverview) {
-      movieOverview.textContent = movie.overview || "No overview available.";
-    }
-
-    if (modalElement) {
-      const modal = bootstrap.Modal.getOrCreateInstance(modalElement);
-      modal.show();
-    }
-  } catch (error) {
-    console.error(error);
-  }
-}
-
-if (watchlistBtn) {
-  watchlistBtn.addEventListener("click", addToWatchlist);
-}
-
-fetchMovies("/movie/popular");
-fetchGenres();
-displayWatchlist();
+  setTimeout(() => {
+    spinner.classList.add("d-none");
+    loginText.textContent = "Login";
+  }, 1000);
+});
