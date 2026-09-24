@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>CineScope | Login</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+    <link rel="stylesheet" href="authentication.css">
+</head>
+
+<body>
+
+    <div class="page">
+
+        <div class="login-card">
+
+            <div class="left-side">
+
+                <div class="logo">
+                    <span>Cine</span>Scope
+                </div>
+
+                <div id="loginForm">
+
+                    <div class="form-content">
+
+                        <h1>Welcome to CineScope</h1>
+
+                        <form id="login">
+
+                            <div class="form-field">
+
+                                <label for="loginEmail">
+                                    Email
+                                </label>
+
+                                <input type="email" id="loginEmail" required>
+
+                            </div>
+
+                            <div class="form-field">
+
+                                <label for="loginPassword">
+                                    Password
+                                </label>
+
+                                <div class="password-input">
+
+                                    <input type="password" id="loginPassword" required>
+
+                                    <i class="fa-regular fa-eye toggle-password" data-target="loginPassword"></i>
+
+                                </div>
+
+                            </div>
+
+                            <div class="login-options">
+
+                                <a href="#" id="showForgot">
+                                    Forgot Password?
+                                </a>
+
+                            </div>
+
+                            <button type="submit" class="login-btn" id="loginBtn">
+
+                                <span class="spinner-border spinner-border-sm d-none" id="loginSpinner">
+                                </span>
+
+                                <span id="loginText">
+                                    Login
+                                </span>
+
+                            </button>
+
+                            <div id="loginMessage" class="message"></div>
+
+                        </form>
+
+                        <p class="signup-text">
+                            Don't have an account?
+                            <a href="#" id="showSignup">
+                                Sign up
+                            </a>
+                        </p>
+                        <p class="signup-text">
+
+                            <a href="index.html" id="backToMovies">
+                                Back to Home
+                            </a>
+                        </p>
+
+                    </div>
+
+                </div>
+
+                <div id="signupForm" style="display: none;">
+
+                    <div class="form-content">
+
+                        <h1>Create your CineScope account</h1>
+
+                        <form id="signup">
+
+                            <div class="form-field">
+
+                                <label for="signupUsername">
+                                    Username
+                                </label>
+
+                                <input type="text" id="signupUsername" required>
+
+                            </div>
+
+                            <div class="form-field">
+
+                                <label for="signupEmail">
+                                    Email
+                                </label>
+
+                                <input type="email" id="signupEmail" required>
+
+                            </div>
+
+                            <div class="form-field">
+
+                                <label for="signupPassword">
+                                    Password
+                                </label>
+
+                                <div class="password-input">
+
+                                    <input type="password" id="signupPassword" required>
+
+                                    <i class="fa-regular fa-eye toggle-password" data-target="signupPassword"></i>
+
+                                </div>
+
+                            </div>
+
+                            <div class="form-field">
+
+                                <label for="confirmPassword">
+                                    Confirm Password
+                                </label>
+
+                                <div class="password-input">
+
+                                    <input type="password" id="confirmPassword" required>
+
+                                    <i class="fa-regular fa-eye toggle-password" data-target="confirmPassword"></i>
+
+                                </div>
+
+                            </div>
+
+                            <button type="submit" class="login-btn">
+                                Create Account
+                            </button>
+
+                            <div id="signupMessage" class="message"></div>
+
+                        </form>
+
+                        <p class="signup-text">
+                            Already have an account?
+                            <a href="#" id="showLogin">
+                                Sign in
+                            </a>
+                        </p>
+                        <p class="signup-text">
+
+                            <a href="index.html" id="backToMovies">
+                                Back to Home
+                            </a>
+                        </p>
+
+                    </div>
+
+                </div>
+
+                <div id="forgotPassword" style="display: none;">
+
+                    <div class="form-content">
+
+                        <h1>Reset your password</h1>
+
+                        <form id="resetPassword">
+
+                            <div class="form-field">
+
+                                <label for="forgotEmail">
+                                    Email
+                                </label>
+
+                                <input type="email" id="forgotEmail" required>
+
+                            </div>
+
+                            <div class="form-field">
+
+                                <label for="newPassword">
+                                    New Password
+                                </label>
+
+                                <div class="password-input">
+
+                                    <input type="password" id="newPassword" required>
+
+                                    <i class="fa-regular fa-eye toggle-password" data-target="newPassword"></i>
+
+                                </div>
+
+                            </div>
+
+                            <div class="form-field">
+
+                                <label for="confirmNewPassword">
+                                    Confirm New Password
+                                </label>
+
+                                <div class="password-input">
+
+                                    <input type="password" id="confirmNewPassword" required>
+
+                                    <i class="fa-regular fa-eye toggle-password" data-target="confirmNewPassword"></i>
+
+                                </div>
+
+                            </div>
+
+                            <button type="submit" class="login-btn">
+                                Reset Password
+                            </button>
+
+                            <div id="forgotMessage" class="message"></div>
+
+                        </form>
+
+                        <p class="signup-text">
+                            Remember your password?
+                            <a href="#" id="backToLogin">
+                                Sign in
+                            </a>
+                        </p>
+                        <p class="signup-text">
+
+                            <a href="index.html" id="backToMovies">
+                                Back to Home
+                            </a>
+                        </p>
+
+                    </div>
+
+                </div>
+                <div id="changePassword" style="display: none;">
+
+                    <div class="form-content">
+
+                        <h1>Change your password</h1>
+
+                        <form id="changePasswordForm">
+
+                            <div class="form-field">
+
+                                <label for="oldPasswordUser">
+                                    Old Password
+                                </label>
+
+                                <div class="password-input">
+
+                                    <input type="password" id="oldPasswordUser" required>
+
+                                    <i class="fa-regular fa-eye toggle-password" data-target="oldPasswordUser"></i>
+
+                                </div>
+
+                            </div>
+                            <div class="form-field">
+
+                                <label for="newPasswordUser">
+                                    New Password
+                                </label>
+
+                                <div class="password-input">
+
+                                    <input type="password" id="newPasswordUser" required>
+
+                                    <i class="fa-regular fa-eye toggle-password" data-target="newPasswordUser"></i>
+
+                                </div>
+
+                            </div>
+
+                            <div class="form-field">
+
+                                <label for="confirmNewPasswordUser">
+                                    Confirm New Password
+                                </label>
+
+                                <div class="password-input">
+
+                                    <input type="password" id="confirmNewPasswordUser" required>
+
+                                    <i class="fa-regular fa-eye toggle-password"
+                                        data-target="confirmNewPasswordUser"></i>
+
+                                </div>
+
+                            </div>
+
+                            <button type="submit" class="login-btn">
+                                Change Password
+                            </button>
+
+                            <div id="changePasswordMsg" class="message"></div>
+
+                        </form>
+
+                        <p class="signup-text">
+
+                            <a href="index.html" id="backToMovies">
+                                Back to Home
+                            </a>
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="right-side">
+
+                <div class="movie-slider">
+
+                    <img src="https://image.tmdb.org/t/p/original/7WsyChQLEftFiDOVTGkv3hFpyyt.jpg" alt="Movie">
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <script src="authentication.js"></script>
+
+</body>
+
+</html>
